@@ -1,0 +1,1632 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NAU | Microelectronics Processing, Characterization, & Testing</title>
+
+  <style>
+    :root{
+      /* Core palette */
+      --nau-navy: #081c44;
+      --nau-navy-2: #0b2a5b;
+      --nau-gold: #f4b400;
+      --nau-green: #1f6f4a;
+
+      /* Middle section palette */
+      --true-blue: #002454;
+      --true-blue-dark: #000421;
+      --true-blue-dark-50: #001632;
+      --true-blue-light: #003b82;
+      --bg-secondary: #e9eef7;
+      --bg-tertiary: #f7f5e9;
+      --gold: #fac01a;
+      --gold-dark: #332500;
+
+      /* Theme tokens (light default) */
+      --page-bg: #ffffff;
+      --surface: #ffffff;
+      --surface-2: #f7f8fb;
+      --surface-3: #e9eef7;
+
+      --ink: #0b0f19;
+      --ink-muted: #334155;
+
+      --link: var(--true-blue);
+      --link-hover: var(--gold);
+
+      /* Hero overlay */
+      --hero-overlay: linear-gradient(
+        65deg,
+        rgba(255,255,255,.95) 0%,
+        rgba(255,255,255,.70) 45%,
+        rgba(255,255,255,0) 60%
+      );
+      --hero-title: #0b2a5b;
+      --hero-subtitle: #0b5fb2;
+      --hero-text: #18314f;
+
+      /* Sections that flip between light and dark mode like NAU */
+      --glance-bg: #ffffff;
+      --glance-title: var(--true-blue);
+      --card-bg: #ffffff;
+      --card-ink: #19304f;
+
+      /* Green band section */
+      --band-green: #0b6f3a;
+      --band-green-ink: #ffffff;
+    }
+
+    html[data-theme="dark"]{
+      --page-bg: #070b20;
+      --surface: #0b1235;
+      --surface-2: #08122f;
+      --surface-3: #0a2045;
+
+      --ink: #ffffff;
+      --ink-muted: rgba(255,255,255,.82);
+
+      --link: #9bd0ff;
+      --link-hover: var(--gold);
+
+      --hero-overlay: linear-gradient(
+        65deg,
+        rgba(5,10,29,.90) 0%,
+        rgba(5,10,29,.68) 45%,
+        rgba(5,10,29,0) 62%
+      );
+      --hero-title: #ffffff;
+      --hero-subtitle: #fac01a;
+      --hero-text: rgba(255,255,255,.82);
+
+      --glance-bg: #08122f;
+      --glance-title: #ffffff;
+      --card-bg: #0b1235;
+      --card-ink: rgba(255,255,255,.85);
+
+      --band-green: #0b6f3a;
+      --band-green-ink: #ffffff;
+    }
+
+    *{ box-sizing: border-box; }
+
+    body{
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--ink);
+      background: var(--page-bg);
+    }
+
+    a{ color: inherit; }
+
+    /* ===========================
+       HEADER
+       =========================== */
+    .site-header{
+      width: 100%;
+      position: sticky;
+      top: 0;
+      z-index: 9999;
+    }
+
+    .header-top{
+      background: #ffffff;
+      border-bottom: 1px solid #e6e8ee;
+    }
+
+    .header-top .inner{
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand{
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 200px;
+    }
+
+    .brand-logo{
+      height: 50px; 
+      width: auto;
+      display: block;
+    }
+
+    .top-links{
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      flex-wrap: nowrap;
+      white-space: nowrap;
+    }
+
+    .top-links a,
+    .top-links button{
+      font-size: 16px;
+      line-height: 1;
+      color: #0a2c5e;
+      text-decoration: none;
+      background: transparent;
+      border: 0;
+      padding: 8px 0;
+      cursor: pointer;
+      font-weight: 600; 
+      text-transform: none; 
+    }
+
+    .top-links a:hover,
+    .top-links button:hover{
+      color: #001b3a;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    /* Quick Links Specific Styling */
+    .quick-link-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    /* Make the Quick Links arrow Yellow/Gold */
+    .quick-link-arrow {
+        color: var(--gold);
+        font-size: 0.8em;
+    }
+
+    .dropdown{
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dropdown-toggle{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      letter-spacing: .02em;
+      text-transform: none;
+    }
+
+    .caret{
+      width: 10px;
+      height: 10px;
+      border-right: 2px solid #0a2c5e;
+      border-bottom: 2px solid #0a2c5e;
+      transform: rotate(45deg);
+      margin-top: -2px;
+    }
+
+    .dropdown-menu{
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      width: 280px;
+      background: #ffffff;
+      border: 1px solid #e6e8ee;
+      border-radius: 10px;
+      box-shadow: 0 14px 34px rgba(0,0,0,.12);
+      padding: 10px;
+      display: none;
+      z-index: 10001;
+    }
+
+    .dropdown-menu a{
+      display: block;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-weight: 600;
+      color: #0a2c5e;
+      text-decoration: none;
+    }
+
+    .dropdown-menu a:hover{
+      background: #f1f4fb;
+    }
+
+    .dropdown.open .dropdown-menu{ display: block; }
+
+    .top-icons{
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: 10px;
+    }
+
+    .icon-btn{
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      border: 1px solid #e6e8ee;
+      background: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .icon-btn:hover{ background: #f4f6fb; }
+
+    /* --- THEME TOGGLE (UPDATED TO MATCH SCREENSHOT) --- */
+    .toggle{
+      position: relative;
+      width: 62px;
+      height: 32px;
+      background: var(--nau-navy);
+      border: 2px solid var(--nau-gold);
+      border-radius: 999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      padding: 4px;
+      box-sizing: border-box;
+      transition: background-color 0.2s, border-color 0.2s;
+    }
+
+    /* Toggle knob */
+    .toggle::after{
+      content: "";
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 2px 6px rgba(0,0,0,.18);
+      transition: transform .18s ease;
+    }
+
+    /* Dark mode state (knob slides right, track stays navy + gold border) */
+    .toggle.on::after{
+      transform: translateX(30px);
+    }
+
+    .header-main{
+      background: var(--nau-navy);
+    }
+
+    .header-main .inner{
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .primary-nav{
+      display: flex;
+      align-items: center;
+      gap: 34px;
+      flex-wrap: nowrap;
+      white-space: nowrap;
+    }
+
+    .primary-nav a{
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 600;
+      padding: 10px 0;
+      position: relative;
+      text-transform: none; 
+    }
+
+    .primary-nav a:hover{
+      color: #dfe8ff;
+    }
+
+    .primary-nav a:hover::after{
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 4px;
+      height: 2px;
+      background: rgba(255,255,255,.75);
+    }
+
+    .nav-actions{
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      white-space: nowrap;
+    }
+
+    .search-btn{
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.25);
+      background: transparent;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .search-btn:hover{
+      background: rgba(255,255,255,.08);
+      border-color: rgba(255,255,255,.35);
+    }
+
+    .cta{
+      height: 44px;
+      padding: 0 18px;
+      border-radius: 4px;
+      border: 0;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-transform: none;
+    }
+
+    .cta.request{
+      background: transparent;
+      color: #fff;
+      /* Thicker border for better visibility */
+      border: 2px solid #ffffff; 
+    }
+
+    .cta.request:hover{ 
+        background: rgba(255,255,255,0.1); 
+    }
+
+    .cta.apply{
+      background: var(--nau-gold);
+      color: #10213a;
+      border: 2px solid var(--nau-gold);
+    }
+
+    .cta.apply:hover{ filter: brightness(1.03); }
+
+    .apply-wrap{
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .apply-caret{
+      width: 10px;
+      height: 10px;
+      border-right: 2px solid #10213a;
+      border-bottom: 2px solid #10213a;
+      transform: rotate(45deg);
+      margin-top: -2px;
+    }
+
+    .apply-menu{
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      width: 220px;
+      background: #ffffff;
+      border: 1px solid #e6e8ee;
+      border-radius: 10px;
+      box-shadow: 0 14px 34px rgba(0,0,0,.12);
+      padding: 10px;
+      display: none;
+      z-index: 10000;
+    }
+
+    .apply-wrap.open .apply-menu{ display: block; }
+
+    .apply-menu a{
+      display: block;
+      padding: 10px 12px;
+      border-radius: 8px;
+      color: #0a2c5e;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .apply-menu a:hover{ background: #f1f4fb; }
+
+    /* ===========================
+       MAIN PAGE 
+       =========================== */
+    .site-main{
+      background: var(--page-bg);
+    }
+
+    .content-section--lg{
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 18px;
+    }
+
+    .btn{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1.5rem;
+      background-color: var(--true-blue);
+      color: #fff;
+      font-weight: 800;
+      border: 1px solid var(--true-blue);
+      border-radius: 4px;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform .15s ease, background-color .15s ease;
+      text-transform: none;
+    }
+    .btn:hover{ background-color: var(--true-blue-light); transform: translateY(-1px); }
+
+    /* Hero */
+    .homepage-hero{
+      position: relative;
+      overflow: hidden;
+    }
+
+    .homepage-hero__top{
+      position: relative;
+      min-height: 78svh;
+      border-bottom: 10px solid var(--nau-gold);
+    }
+
+    .homepage-hero__background{
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -2;
+    }
+
+    .homepage-hero__top::after{
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: var(--hero-overlay);
+    }
+
+    .homepage-hero__foreground-wrapper{
+      min-height: 78svh;
+      display: flex;
+      align-items: center;
+      padding: 34px 0;
+    }
+
+    .homepage-hero__foreground{
+      max-width: 720px;
+      padding-top: 4vh;
+    }
+
+    .homepage-hero__title{
+      font-size: clamp(2.6rem, 5vw, 4.2rem);
+      line-height: 1.08;
+      margin: 0 0 12px;
+      font-weight: 900;
+      color: var(--hero-title);
+      letter-spacing: 0.01em;
+    }
+
+    .homepage-hero__subtitle{
+      font-size: clamp(1.4rem, 2.3vw, 2.1rem);
+      font-weight: 800;
+      margin: 0 0 14px;
+      color: var(--hero-subtitle);
+    }
+
+    .homepage-hero__rule{
+      width: 420px;
+      height: 3px;
+      background: var(--hero-subtitle);
+      margin: 10px 0 14px;
+    }
+
+    .homepage-hero__text{
+      font-size: 1.15rem;
+      color: var(--hero-text);
+      font-weight: 600;
+      line-height: 1.5;
+      margin: 0 0 20px;
+      max-width: 560px;
+    }
+
+    /* At a glance section */
+    .glance{
+      background: var(--glance-bg);
+      padding: 34px 0 36px;
+    }
+
+    .glance__header{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .glance__title{
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: var(--glance-title);
+    }
+
+    .glance__controls{
+      display: inline-flex;
+      gap: 10px;
+    }
+
+    .glance__controls .btn{
+      padding: 10px 14px;
+      font-weight: 900;
+      border-radius: 4px;
+      background: #1e78c8;
+      border-color: #1e78c8;
+    }
+
+    .glance__controls .btn:hover{
+      background: #0f65b5;
+      border-color: #0f65b5;
+      transform: none;
+    }
+
+    .glance__cards{
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .glance-card{
+      background: #0a3a69;
+      border-radius: 6px;
+      padding: 22px 18px;
+      color: #ffffff;
+      position: relative;
+      overflow: hidden;
+      min-height: 150px;
+    }
+
+    .glance-card strong{
+      display: block;
+      font-size: 2.4rem;
+      color: var(--nau-gold);
+      font-weight: 900;
+      margin-bottom: 6px;
+    }
+
+    .glance-card p{
+      margin: 0;
+      font-weight: 600;
+      color: rgba(255,255,255,.9);
+      line-height: 1.3;
+    }
+
+    .glance-card__watermark{
+      position: absolute;
+      inset: 18px auto auto 18px;
+      width: 80px;
+      height: 80px;
+      opacity: .12;
+      color: var(--nau-gold);
+    }
+
+    /* Degrees and programs carousel */
+    .programs{
+      padding: 18px 0 34px;
+      background: var(--glance-bg);
+    }
+
+    .programs__label{
+      margin: 18px 0 12px;
+      color: var(--glance-title);
+      font-weight: 900;
+      font-size: 1.5rem;
+    }
+
+    .programs__row{
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .program-card{
+      background: var(--card-bg);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 10px 22px rgba(0,0,0,.10);
+      border: 1px solid rgba(0,0,0,.06);
+      text-decoration: none;
+      display: block;
+      color: inherit;
+    }
+
+    html[data-theme="dark"] .program-card{
+      border-color: rgba(255,255,255,.10);
+      box-shadow: 0 10px 26px rgba(0,0,0,.35);
+    }
+
+    .program-card img{
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .program-card__tag{
+      padding: 15px 12px;
+      font-weight: 800;
+      color: var(--ink);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    html[data-theme="dark"] .program-card__tag{
+      color: var(--ink);
+    }
+
+    /* Green band: why choose */
+    .band-green{
+      background: var(--band-green);
+      color: var(--band-green-ink);
+      padding: 44px 0;
+      clip-path: polygon(0 6vw, 100% 0, 100% 100%, 0 100%);
+      margin-top: -4vw;
+    }
+
+    .band-green__grid{
+      display: grid;
+      grid-template-columns: 1.1fr 1.4fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .band-green h2{
+      margin: 0 0 12px;
+      font-size: 1.6rem;
+      font-weight: 950;
+      color: #ffd55e;
+    }
+
+    .band-green p{
+      margin: 0 0 18px;
+      font-weight: 600;
+      line-height: 1.5;
+      color: rgba(255,255,255,.88);
+    }
+
+    .band-green .btn{
+      background: var(--nau-gold);
+      border-color: var(--nau-gold);
+      color: #10213a;
+      font-weight: 950;
+    }
+    .band-green .btn:hover{
+      filter: brightness(1.03);
+      transform: translateY(-1px);
+    }
+
+    .video-frame{
+      border-radius: 10px;
+      overflow: hidden;
+      background: #0b1235;
+      box-shadow: 0 14px 36px rgba(0,0,0,.25);
+      aspect-ratio: 16 / 9;
+      position: relative;
+    }
+
+    .video-frame img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      opacity: .95;
+    }
+
+    .video-play{
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .video-play span{
+      width: 64px;
+      height: 46px;
+      border-radius: 10px;
+      background: rgba(200, 0, 0, .85);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 20px rgba(0,0,0,.25);
+    }
+
+    .video-play svg{ color: #fff; }
+
+    /* News section */
+    .news{
+      background: var(--surface);
+      padding: 40px 0;
+    }
+
+    html[data-theme="dark"] .news{
+      background: var(--surface-2);
+    }
+
+    .news__header{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .news__header h2{
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--glance-title);
+    }
+
+    .news__grid{
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .news-card{
+      background: var(--card-bg);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 10px 22px rgba(0,0,0,.10);
+      border: 1px solid rgba(0,0,0,.06);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    html[data-theme="dark"] .news-card{
+      border-color: rgba(255,255,255,.10);
+      box-shadow: 0 10px 26px rgba(0,0,0,.35);
+    }
+
+    .news-card img{
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .news-card h3{
+      margin: 0;
+      padding: 12px 12px 6px;
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--ink);
+    }
+
+    .news-card p{
+      margin: 0;
+      padding: 0 12px 14px;
+      color: var(--card-ink);
+      font-weight: 600;
+      line-height: 1.45;
+      font-size: .95rem;
+      flex: 1;
+    }
+
+    /* Contact section */
+    .contact{
+      background: var(--surface);
+      padding: 44px 0 10px;
+    }
+    html[data-theme="dark"] .contact{
+      background: var(--surface-2);
+    }
+
+    .contact h2{
+      margin: 0 0 14px;
+      font-weight: 950;
+      color: var(--glance-title);
+    }
+
+    .contact-social{
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      padding: 10px 0 20px;
+    }
+    .contact-social a{
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      background: var(--nau-gold);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #10213a;
+      text-decoration: none;
+      font-weight: 950;
+      box-shadow: 0 10px 22px rgba(0,0,0,.18);
+    }
+
+    /* ===========================
+       FOOTER
+       =========================== */
+    .nau-footer{
+      background: radial-gradient(1200px 500px at 10% 10%, rgba(17,45,95,.45) 0%, rgba(8,20,57,0) 55%),
+                  linear-gradient(180deg, #0b1235 0%, #070b20 100%);
+      color: #ffffff;
+      padding-top: 56px;
+    }
+
+    .nau-footer__top{
+      padding: 0 0 56px;
+    }
+
+    .nau-footer__inner{
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 18px;
+      display: grid;
+      grid-template-columns: 760px 1fr;
+      gap: 90px;
+      align-items: start;
+    }
+
+    .campus-locator{
+      background: #0b3a68;
+      border-radius: 2px;
+      box-shadow: 0 24px 60px rgba(0,0,0,.25);
+      overflow: hidden;
+      width: 100%;
+      max-width: 760px;
+    }
+
+    .campus-locator__header{
+      padding: 46px 52px 34px;
+      background: #0a3a69;
+    }
+
+    .campus-locator__title{
+      margin: 0;
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: .01em;
+    }
+
+    .campus-locator__accent{
+      width: 44px;
+      height: 3px;
+      background: #f4b400;
+      margin: 12px 0 26px;
+    }
+
+    .campus-locator__label{
+      display: block;
+      font-size: 14px;
+      letter-spacing: .06em;
+      font-weight: 900;
+      opacity: .95;
+      margin-bottom: 12px;
+    }
+
+    .campus-locator__selectWrap{
+      position: relative;
+    }
+
+    .campus-locator__select{
+      width: 100%;
+      height: 60px;
+      border-radius: 2px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: #e9edf3;
+      color: #143156;
+      padding: 0 56px 0 18px;
+      font-size: 18px;
+      font-weight: 700;
+      appearance: none;
+      outline: none;
+    }
+
+    .campus-locator__chev{
+      position: absolute;
+      right: 18px;
+      top: 50%;
+      width: 12px;
+      height: 12px;
+      border-right: 3px solid #0a2045;
+      border-bottom: 3px solid #0a2045;
+      transform: translateY(-60%) rotate(45deg);
+      pointer-events: none;
+      opacity: .9;
+    }
+
+    .campus-locator__body{
+      position: relative;
+      background: #133f77;
+    }
+
+    .campus-locator__notch{
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 40px;
+      background: transparent;
+    }
+
+    .campus-locator__notch::after{
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: -1px;
+      width: 0;
+      height: 0;
+      border-left: 26px solid transparent;
+      border-right: 26px solid transparent;
+      border-top: 22px solid #0a3a69;
+      transform: translateX(-50%);
+      filter: drop-shadow(0 8px 0 rgba(0,0,0,.06));
+    }
+
+    .campus-locator__content{
+      padding: 56px 52px 50px;
+    }
+
+    .campus-locator__campus{
+      font-weight: 950;
+      letter-spacing: .06em;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .campus-locator__addr{
+      font-size: 20px;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 26px;
+    }
+
+    .campus-locator__phone{
+      display: inline-block;
+      color: #ffffff;
+      font-weight: 900;
+      font-size: 18px;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      margin-bottom: 34px;
+    }
+
+    .campus-locator__actions{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 34px;
+      margin-top: 10px;
+    }
+
+    .btn-outline,
+    .btn-gold{
+      height: 54px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 18px;
+      border-radius: 2px;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .btn-outline{
+      border: 2px solid rgba(255,255,255,.55);
+      color: #ffffff;
+      background: transparent;
+    }
+
+    .btn-outline:hover{ background: rgba(255,255,255,.08); }
+
+    .btn-gold{
+      background: #f4b400;
+      color: #10213a;
+      border: 2px solid #f4b400;
+    }
+
+    .btn-gold:hover{ filter: brightness(1.03); }
+
+    .footer-links{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 120px;
+      padding-top: 10px;
+    }
+
+    .footer-col__title{
+      margin: 0 0 20px;
+      font-size: 22px;
+      font-weight: 950;
+      letter-spacing: .01em;
+    }
+
+    .footer-col__list{
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 10px;
+    }
+
+    .footer-col__list a{
+      color: rgba(255,255,255,.82);
+      text-decoration: none;
+      font-weight: 650;
+      font-size: 18px;
+    }
+
+    .footer-col__list a:hover{
+      color: #ffffff;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    .nau-footer__bottom{
+      background: #0a3a69;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+
+    .nau-footer__bottomInner{
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 22px 18px;
+      display: grid;
+      grid-template-columns: 360px 1fr 360px;
+      align-items: center;
+    }
+
+    .footer-brand__logo{
+      width: 260px;
+      height: auto;
+      display: block;
+    }
+
+    .footer-copy{
+      text-align: center;
+      font-weight: 800;
+      color: rgba(255,255,255,.92);
+      font-size: 18px;
+    }
+
+    .footer-social{
+      display: flex;
+      justify-content: flex-end;
+      gap: 22px;
+    }
+
+    .social{
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.92);
+      color: #0a2045;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      box-shadow: 0 10px 20px rgba(0,0,0,.22);
+    }
+
+    .social:hover{
+      filter: brightness(1.02);
+      transform: translateY(-1px);
+    }
+
+    /* ===========================
+       RESPONSIVE
+       =========================== */
+    @media (max-width: 1100px){
+      .top-links{ gap: 18px; }
+      .primary-nav{ gap: 24px; }
+      .glance__cards{ grid-template-columns: 1fr; }
+      .programs__row{ grid-template-columns: 1fr 1fr; }
+      .news__grid{ grid-template-columns: 1fr 1fr; }
+      .band-green__grid{ grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 860px){
+      .top-links{ display: none; }
+      .primary-nav{ display: none; }
+      .header-main .inner{ justify-content: flex-end; }
+
+      .programs__row{ grid-template-columns: 1fr; }
+      .news__grid{ grid-template-columns: 1fr; }
+
+      .nau-footer__inner{
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+      .footer-links{ grid-template-columns: 1fr 1fr; gap: 40px; }
+      .nau-footer__bottomInner{
+        grid-template-columns: 1fr;
+        gap: 18px;
+        justify-items: center;
+        text-align: center;
+      }
+      .footer-social{ justify-content: center; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===========================
+       HEADER
+       =========================== -->
+  <header class="site-header" role="banner">
+    <div class="header-top">
+      <div class="inner">
+        <div class="brand" aria-label="Northern Arizona University">
+          <!-- Placeholder logo -->
+          <img
+            class="brand-logo"
+            src="NAU.png"
+            alt="NAU Northern Arizona University"
+          />
+        </div>
+
+        <nav class="top-links" aria-label="Top navigation">
+          <!-- REQUESTED LINKS -->
+          <a href="#">Research</a>
+          <a href="#">Athletics</a>
+          <a href="#">Alumni</a>
+          <a href="#">Giving</a>
+
+          <div class="dropdown" id="quickLinks">
+            <button class="dropdown-toggle quick-link-btn" type="button" aria-haspopup="true" aria-expanded="false">
+              Quick links <span class="caret quick-link-arrow" aria-hidden="true"></span>
+            </button>
+            <div class="dropdown-menu" role="menu" aria-label="Quick Links">
+              <a href="#" role="menuitem">Campus Directory</a>
+              <a href="#" role="menuitem">MyNAU Portal</a>
+              <a href="#" role="menuitem">Library</a>
+              <a href="#" role="menuitem">Contact</a>
+            </div>
+          </div>
+
+          <div class="top-icons" aria-label="Theme and settings">
+            <button class="icon-btn" id="moonBtn" type="button" aria-label="Theme">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M21 13.2A8.4 8.4 0 0 1 10.8 3a7.2 7.2 0 1 0 10.2 10.2Z" stroke="#0a2c5e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+
+            <!-- UPDATED TOGGLE (border visible in light mode) -->
+            <button class="toggle" id="themeToggle" type="button" aria-label="Toggle theme" aria-pressed="false"></button>
+
+            <button class="icon-btn" type="button" aria-label="Settings">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" stroke="#0a2c5e" stroke-width="2"/>
+                <path d="M19.4 15a7.9 7.9 0 0 0 .1-2l2-1.2-2-3.6-2.3.6a7.6 7.6 0 0 0-1.7-1L15 5.4 11 5l-.5 2.4a7.6 7.6 0 0 0-1.7 1l-2.3-.6-2 3.6 2 1.2a7.9 7.9 0 0 0 .1 2l-2 1.2 2 3.6 2.3-.6c.5.4 1.1.8 1.7 1L11 21l4 .4.5-2.4c.6-.2 1.2-.6 1.7-1l2.3.6 2-3.6-2-1.2Z" stroke="#0a2c5e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        </nav>
+      </div>
+    </div>
+
+    <div class="header-main">
+      <div class="inner">
+        <nav class="primary-nav" aria-label="Primary">
+          <a href="#">Academics</a>
+          <a href="#">Cost &amp; aid</a>
+          <a href="#">Admissions</a>
+          <a href="#">Experience</a>
+          <a href="#">About</a>
+        </nav>
+
+        <div class="nav-actions" aria-label="Actions">
+          <button class="search-btn" type="button" aria-label="Search">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="#ffffff" stroke-width="2"/>
+              <path d="M21 21l-4.2-4.2" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+
+          <!-- REQUEST INFO with clear border -->
+          <button class="cta request" type="button">Request info</button>
+
+          <div class="apply-wrap" id="applyNow">
+            <button class="cta apply" type="button" aria-haspopup="true" aria-expanded="false">
+              Apply now <span class="apply-caret" aria-hidden="true"></span>
+            </button>
+            <div class="apply-menu" role="menu" aria-label="Apply now">
+              <a href="#" role="menuitem">Undergraduate</a>
+              <a href="#" role="menuitem">Graduate</a>
+              <a href="#" role="menuitem">International</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===========================
+       MAIN (MPCT CONTENT)
+       =========================== -->
+  <main class="site-main" role="main">
+
+    <!-- HERO -->
+    <section class="homepage-hero" aria-label="Hero">
+      <div class="homepage-hero__top">
+        <div class="content-section--lg homepage-hero__foreground-wrapper">
+          <div class="homepage-hero__foreground">
+            <h1 class="homepage-hero__title">Microelectronics at NAU</h1>
+            <h2 class="homepage-hero__subtitle">Processing, Characterization, &amp; Testing</h2>
+            <div class="homepage-hero__rule"></div>
+            <p class="homepage-hero__text">
+              Step into the future of semiconductor technology. From wafer fabrication to advanced reliability testing, our labs provide the hands-on experience industry leaders demand.
+            </p>
+            <a class="btn" href="#">Explore our labs</a>
+          </div>
+        </div>
+
+        <img
+          class="homepage-hero__background"
+          src="https://images.unsplash.com/photo-1555664424-778a1e5e1b48?q=80&w=2070&auto=format&fit=crop"
+          alt="Cleanroom wafer processing"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+    </section>
+
+    <!-- AT A GLANCE (MPCT STATS) -->
+    <section class="glance" aria-label="Department at a glance">
+      <div class="content-section--lg">
+        <div class="glance__header">
+          <h2 class="glance__title">Department at a glance</h2>
+          <div class="glance__controls" aria-label="Glance controls">
+            <button class="btn" type="button" aria-label="Previous">←</button>
+            <button class="btn" type="button" aria-label="Next">→</button>
+          </div>
+        </div>
+
+        <div class="glance__cards">
+          <div class="glance-card">
+            <div class="glance-card__watermark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="80" height="80">
+                <path fill="currentColor" d="M12 2l8 4v6c0 5-3.4 9.4-8 10-4.6-.6-8-5-8-10V6l8-4z"/>
+              </svg>
+            </div>
+            <strong>100%</strong>
+            <p>Graduate job placement in semiconductor roles within 6 months.</p>
+          </div>
+
+          <div class="glance-card">
+            <div class="glance-card__watermark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="80" height="80">
+                <path fill="currentColor" d="M21 16.5c0 .38-.21.71-.53.88l-7.9 4.44c-.16.12-.36.18-.57.18s-.41-.06-.57-.18l-7.9-4.44A.991.991 0 0 1 3 16.5v-9c0-.38.21-.71.53-.88l7.9-4.44c.16-.12.36-.18.57-.18s.41.06.57.18l7.9 4.44c.32.17.53.5.53.88v9z"/>
+              </svg>
+            </div>
+            <strong>Class 100</strong>
+            <p>Cleanroom environment for lithography and plasma etching.</p>
+          </div>
+
+          <div class="glance-card">
+            <div class="glance-card__watermark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="80" height="80">
+                <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+              </svg>
+            </div>
+            <strong>$5M+</strong>
+            <p>In active research grants for micro-devices and sensors.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROGRAMS (MPCT DEGREES) -->
+    <section class="programs" aria-label="Explore degrees and programs">
+      <div class="content-section--lg">
+        <div class="programs__label">Academic Programs</div>
+
+        <div class="programs__row">
+          <a href="#" class="program-card">
+            <img src="https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?q=80&w=2070&auto=format&fit=crop" alt="Electrical Engineering Student" />
+            <div class="program-card__tag">
+              BS in Electrical Engineering
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </div>
+          </a>
+          <a href="#" class="program-card">
+            <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2070&auto=format&fit=crop" alt="Graduate Research" />
+            <div class="program-card__tag">
+              MS in Applied Physics
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </div>
+          </a>
+          <a href="#" class="program-card">
+            <img src="https://images.unsplash.com/photo-1624969862293-b749659ccc4e?q=80&w=2070&auto=format&fit=crop" alt="Certificate Program" />
+            <div class="program-card__tag">
+              Semiconductor Cert.
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- GREEN BAND SECTION (WHY MPCT) -->
+    <section class="band-green" aria-label="Why Microelectronics?">
+      <div class="content-section--lg">
+        <div class="band-green__grid">
+          <div>
+            <h2>Why Microelectronics?</h2>
+            <p>
+              Chips power everything from smartphones to spacecraft. At NAU, we train the next generation of engineers to solve critical shortages in the global supply chain. Learn to gown up, process wafers, and analyze defects using industry-standard tools.
+            </p>
+            <a class="btn" href="#">View Our Research</a>
+          </div>
+
+          <div class="video-frame" aria-label="Lab Video">
+            <img src="https://images.unsplash.com/photo-1597589827317-4c6d6e0a90bd?q=80&w=2080&auto=format&fit=crop" alt="Lab Video Thumbnail" />
+            <div class="video-play" aria-hidden="true">
+              <span>
+                <svg viewBox="0 0 24 24" width="22" height="22">
+                  <path fill="currentColor" d="M8 5v14l11-7L8 5z"/>
+                </svg>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEWS (MPCT NEWS) -->
+    <section class="news" aria-label="Department News">
+      <div class="content-section--lg">
+        <div class="news__header">
+          <h2>Latest News</h2>
+          <div class="glance__controls">
+            <button class="btn" type="button" aria-label="Previous news">←</button>
+            <button class="btn" type="button" aria-label="Next news">→</button>
+          </div>
+        </div>
+
+        <div class="news__grid">
+          <article class="news-card">
+            <img src="https://images.unsplash.com/photo-1581093450021-4a7360e9a6b5?q=80&w=2070&auto=format&fit=crop" alt="Student in bunny suit" />
+            <h3>New Grant for Nanotech</h3>
+            <p>NAU receives NSF funding to explore novel materials for next-gen transistors.</p>
+          </article>
+
+          <article class="news-card">
+            <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?q=80&w=2070&auto=format&fit=crop" alt="Microscope" />
+            <h3>Industry Partnership</h3>
+            <p>Local semiconductor firms commit to expanded internship programs for NAU students.</p>
+          </article>
+
+          <article class="news-card">
+            <img src="https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?q=80&w=2070&auto=format&fit=crop" alt="Circuit board" />
+            <h3>Student Innovation Award</h3>
+            <p>Senior capstone team develops ultra-efficient power management IC.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" aria-label="Get in touch">
+      <div class="content-section--lg">
+        <h2 style="text-align:center;">Get in touch</h2>
+
+        <div class="contact-social" aria-label="Social icons">
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="LinkedIn">in</a>
+          <a href="#" aria-label="Twitter">X</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===========================
+       FOOTER
+       =========================== -->
+  <footer class="nau-footer" role="contentinfo" aria-label="NAU footer">
+    <div class="nau-footer__top">
+      <div class="nau-footer__inner">
+
+        <section class="campus-locator" aria-label="Campus locator">
+          <div class="campus-locator__header">
+            <h3 class="campus-locator__title">Campus locator</h3>
+            <div class="campus-locator__accent" aria-hidden="true"></div>
+
+            <label class="campus-locator__label" for="campusSelect">SELECT A LOCATION</label>
+            <div class="campus-locator__selectWrap">
+              <select id="campusSelect" class="campus-locator__select" aria-label="Select a location">
+                <option selected>Flagstaff</option>
+                <option>Phoenix</option>
+                <option>Yuma</option>
+                <option>Online</option>
+              </select>
+              <span class="campus-locator__chev" aria-hidden="true"></span>
+            </div>
+          </div>
+
+          <div class="campus-locator__body">
+            <div class="campus-locator__notch" aria-hidden="true"></div>
+
+            <div class="campus-locator__content">
+              <div class="campus-locator__campus">FLAGSTAFF</div>
+
+              <div class="campus-locator__addr">
+                1900 S Knoles Dr<br/>
+                Flagstaff AZ 86011
+              </div>
+
+              <a class="campus-locator__phone" href="#">928-523-9011</a>
+
+              <div class="campus-locator__actions">
+                <a class="btn-outline" href="#">View All Locations</a>
+                <a class="btn-gold" href="#">View Campus Info</a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="footer-links" aria-label="Footer links">
+          <div class="footer-col">
+            <h3 class="footer-col__title">Resources</h3>
+            <ul class="footer-col__list">
+              <li><a href="#">Aira</a></li>
+              <li><a href="#">Canvas</a></li>
+              <li><a href="#">Faculty/staff email</a></li>
+              <li><a href="#">Student gmail</a></li>
+              <li><a href="#">LOUIE</a></li>
+              <li><a href="#">LOUIEgo</a></li>
+              <li><a href="#">Cline Library</a></li>
+              <li><a href="#">Emergency information</a></li>
+              <li><a href="#">Campus Safety/NAU<br/>Police</a></li>
+              <li><a href="#">Jobs at NAU</a></li>
+              <li><a href="#">Academic calendar</a></li>
+              <li><a href="#">Maps</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h3 class="footer-col__title">Policies</h3>
+            <ul class="footer-col__list">
+              <li><a href="#">Accessibility</a></li>
+              <li><a href="#">Equity &amp; access</a></li>
+              <li><a href="#">Privacy</a></li>
+              <li><a href="#">Student consumer info</a></li>
+              <li><a href="#">University policy library</a></li>
+              <li><a href="#">Title IX</a></li>
+            </ul>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+    <div class="nau-footer__bottom">
+      <div class="nau-footer__bottomInner">
+
+        <div class="footer-brand">
+          <img class="footer-brand__logo" src="./assets/nau-footer-logo-placeholder.png" alt="NAU Northern Arizona University" />
+        </div>
+
+        <div class="footer-copy">© 2025 Arizona Board of Regents</div>
+
+        <div class="footer-social" aria-label="Social media">
+          <a class="social" href="#" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+              <path fill="currentColor" d="M13.5 22v-8h2.7l.4-3H13.5V9.1c0-.9.3-1.6 1.6-1.6H16.7V4.8c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3V11H7.5v3H10v8h3.5z"/>
+            </svg>
+          </a>
+          <a class="social" href="#" aria-label="X">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+              <path fill="currentColor" d="M18.7 3H21l-5.9 6.7L22 21h-5.4l-4.2-6.1L6.9 21H4.6l6.3-7.2L2 3h5.5l3.8 5.5L18.7 3zm-1 16.3h1.3L7.2 4.6H5.8l11.9 14.7z"/>
+            </svg>
+          </a>
+          <a class="social" href="#" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+              <path fill="currentColor" d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zm-5 4.2a3.8 3.8 0 1 1 0 7.6 3.8 3.8 0 0 1 0-7.6zM18 6.1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zM12 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/>
+            </svg>
+          </a>
+          <a class="social" href="#" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+              <path fill="currentColor" d="M6.5 6.8A2.2 2.2 0 1 1 6.5 2.4a2.2 2.2 0 0 1 0 4.4zM4.7 21V9h3.6v12H4.7zm6.1-12h3.4v1.6h.1c.5-.9 1.7-1.9 3.5-1.9 3.7 0 4.4 2.4 4.4 5.6V21h-3.6v-5.5c0-1.3 0-3-1.9-3s-2.2 1.4-2.2 2.9V21h-3.6V9z"/>
+            </svg>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ===========================
+       Theme toggle logic
+       =========================== */
+    function setTheme(theme){
+      document.documentElement.setAttribute("data-theme", theme);
+
+      const toggle = document.getElementById("themeToggle");
+      if(toggle){
+        const on = theme === "dark";
+        toggle.classList.toggle("on", on);
+        toggle.setAttribute("aria-pressed", String(on));
+      }
+
+      localStorage.setItem("nau_theme", theme);
+    }
+
+    function initTheme(){
+      const saved = localStorage.getItem("nau_theme");
+      const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      setTheme(saved || (prefersDark ? "dark" : "light"));
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      initTheme();
+
+      const themeToggle = document.getElementById("themeToggle");
+      const moonBtn = document.getElementById("moonBtn");
+
+      function flipTheme(){
+        const current = document.documentElement.getAttribute("data-theme") || "light";
+        setTheme(current === "dark" ? "light" : "dark");
+      }
+
+      if(themeToggle) themeToggle.addEventListener("click", flipTheme);
+      if(moonBtn) moonBtn.addEventListener("click", flipTheme);
+
+      /* Quick Links dropdown */
+      const quick = document.getElementById("quickLinks");
+      if(quick){
+        const btn = quick.querySelector("button");
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const isOpen = quick.classList.toggle("open");
+          btn.setAttribute("aria-expanded", String(isOpen));
+        });
+
+        document.addEventListener("click", () => {
+          quick.classList.remove("open");
+          btn.setAttribute("aria-expanded", "false");
+        });
+      }
+
+      /* Apply now dropdown */
+      const wrap = document.getElementById("applyNow");
+      if(wrap){
+        const btn = wrap.querySelector("button");
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const isOpen = wrap.classList.toggle("open");
+          btn.setAttribute("aria-expanded", String(isOpen));
+        });
+
+        document.addEventListener("click", () => {
+          wrap.classList.remove("open");
+          btn.setAttribute("aria-expanded", "false");
+        });
+      }
+    });
+  </script>
+</body>
+</html>
